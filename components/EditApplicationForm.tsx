@@ -65,7 +65,7 @@ export function EditApplicationForm({ applicationId, onApplicationUpdated }: Edi
         setValue('company', data.company);
         setValue('jobTitle', data.jobTitle);
         setValue('dateApplied', format(new Date(data.dateApplied), 'yyyy-MM-dd'));
-        setValue('status', data.status);
+        setValue('status', data.status as JobApplicationUpdateInputs['status']);
         setValue('notes', data.notes || ''); // Handle nulls by converting to empty string for input
         setValue('link', data.link || '');   // Handle nulls by converting to empty string for input
 
