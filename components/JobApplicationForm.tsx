@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Fragment } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -82,6 +82,7 @@ export function JobApplciationForm({ onApplicationAdded }: JobApplicationFormPro
   };
 
   return (
+    <>
     <div className="p-8 bg-gray-900 rounded-xl shadow-lg border border-gray-700 max-w-lg mx-auto"> {/* Darker background, border, and shadow */}
       <h2 className="text-3xl font-bold mb-6 text-white text-center">Add New Job Application</h2> {/* White text for heading */}
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5"> {/* Increased spacing */}
@@ -179,5 +180,6 @@ export function JobApplciationForm({ onApplicationAdded }: JobApplicationFormPro
         </button>
       </form>
     </div>
+    </>
   );
 }
