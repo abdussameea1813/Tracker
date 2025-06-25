@@ -1,21 +1,13 @@
-// app/edit/[id]/page.tsx
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { EditApplicationForm } from '../../../components/EditApplicationForm'; // Adjust path
+import { EditApplicationForm } from '../../../components/EditApplicationForm';
 
-interface EditPageProps {
-  params: {
-    id: string; // The ID from the dynamic route segment
-  };
-}
-
-export default function EditApplicationPage({ params }: EditPageProps) {
+export default function EditApplicationPage() {
   const router = useRouter();
   const { id: applicationId } = useParams();
 
   const handleApplicationUpdated = () => {
-    // After updating, navigate back to the list
     router.push('/');
   };
 
@@ -25,9 +17,8 @@ export default function EditApplicationPage({ params }: EditPageProps) {
         <h1 className="text-4xl font-extrabold text-center text-gray-900 mb-10">
           Edit Job Application
         </h1>
-        {/* Pass the ID from the URL to the EditApplicationForm */}
         <EditApplicationForm
-          applicationId={params.id}
+          applicationId={applicationId as string}
           onApplicationUpdated={handleApplicationUpdated}
         />
         <div className="mt-6 text-center">
