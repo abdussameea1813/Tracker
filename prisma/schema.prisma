@@ -1,0 +1,23 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Define your JobApplication model here
+model JobApplication {
+  id          String    @id @default(uuid()) // Unique ID for each application, generated automatically
+  company     String                         // Name of the company
+  jobTitle    String                         // Title of the job
+  dateApplied DateTime  @default(now())     // Date the application was submitted, defaults to current time
+  status      String                         // Current status (e.g., "Applied", "Interviewing", "Rejected", "Offer")
+  notes       String?                        // Optional field for personal notes (String? means it can be null)
+  link        String?                        // Optional link to the job posting (String? means it can be null)
+  createdAt   DateTime  @default(now())      // Timestamp for when the record was created
+  updatedAt   DateTime  @updatedAt           // Timestamp for when the record was last updated
+}
