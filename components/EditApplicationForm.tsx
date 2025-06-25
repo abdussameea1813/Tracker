@@ -128,12 +128,14 @@ export function EditApplicationForm({ applicationId, onApplicationUpdated }: Edi
               Company Name <span className="text-red-400">*</span> {/* Adjusted red for dark theme */}
             </label>
             <input
-              type="text"
-              id="company"
-              className={`mt-1 block w-full px-4 py-2 border rounded-md shadow-sm bg-gray-800 text-gray-200 placeholder-gray-500 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors duration-200 focus:ring-offset-gray-900 ${errors.company ? 'border-red-500' : 'border-gray-700'}`} {/* Darker input background, light text, adjusted border */}
-              {...register('company')}
-              placeholder="e.g., Google"
-            />
+          type="text"
+          id="company"
+          className={`mt-1 block w-full px-4 py-2 border rounded-md shadow-sm bg-gray-800 text-gray-200 placeholder-gray-500 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors duration-200 focus:ring-offset-gray-900 ${
+            errors.company ? 'border-red-500' : 'border-gray-700'
+          }`}
+          {...register('company')}
+          placeholder="e.g., Google"
+        />
             {errors.company && <p className="text-red-400 text-xs mt-1">{errors.company.message}</p>} {/* Adjusted red for dark theme */}
           </div>
           <div>
