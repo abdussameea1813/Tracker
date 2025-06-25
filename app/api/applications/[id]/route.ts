@@ -1,3 +1,4 @@
+// app/api/applications/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '../../../lib/prisma';
 import { z } from 'zod';
@@ -8,7 +9,7 @@ const updateApplicationSchema = z.object({
   company: z.string().min(1, 'Company name is required').optional(),
   jobTitle: z.string().min(1, 'Job title is required').optional(),
   dateApplied: z.string().refine(val => !isNaN(new Date(val).getTime()), {
-    message: "Invalid date format. Expected YYYY-MM-DD"
+    message: "Invalid date format. ExpectedYYYY-MM-DD"
   }).optional(),
   status: z.enum(['Applied', 'Interviewing', 'Rejected', 'Offer', 'Withdrew'], {
     errorMap: () => ({ message: 'Please select a valid status' })
@@ -18,32 +19,30 @@ const updateApplicationSchema = z.object({
 }).partial();
 
 // GET
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
-  try {
-    const parsedId = idSchema.safeParse(params.id);
-    if (!parsedId.success) {
-      return NextResponse.json({ message: parsedId.error.errors[0].message }, { status: 400 });
-    }
+export async function GET(request: NextRequest, context: any) {
+  const id = context.params.id;
+  const parsedId = idSchema.safeParse(id);
 
-    const application = await prisma.jobApplication.findUnique({
-      where: { id: parsedId.data },
-    });
-
-    if (!application) {
-      return NextResponse.json({ message: 'Application not found' }, { status: 404 });
-    }
-
-    return NextResponse.json(application, { status: 200 });
-  } catch (error) {
-    console.error('Error fetching single application:', error);
-    return NextResponse.json({ message: 'Failed to fetch application' }, { status: 500 });
+  if (!parsedId.success) {
+    return NextResponse.json({ message: parsedId.error.errors[0].message }, { status: 400 });
   }
+
+  const application = await prisma.jobApplication.findUnique({
+    where: { id: parsedId.data },
+  });
+
+  if (!application) {
+    return NextResponse.json({ message: 'Application not found' }, { status: 404 });
+  }
+
+  return NextResponse.json(application, { status: 200 });
 }
 
 // PUT
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, context: any) { // Changed signature
   try {
-    const parsedId = idSchema.safeParse(params.id);
+    const id = context.params.id; // Changed ID extraction
+    const parsedId = idSchema.safeParse(id);
     if (!parsedId.success) {
       return NextResponse.json({ message: parsedId.error.errors[0].message }, { status: 400 });
     }
@@ -78,9 +77,10 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
 }
 
 // DELETE
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, context: any) { // Changed signature
   try {
-    const parsedId = idSchema.safeParse(params.id);
+    const id = context.params.id; // Changed ID extraction
+    const parsedId = idSchema.safeParse(id);
     if (!parsedId.success) {
       return NextResponse.json({ message: parsedId.error.errors[0].message }, { status: 400 });
     }
